@@ -4,11 +4,11 @@ import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.is;
-public class StatusCodeTest {
+public class StatusCodeTests {
     /*
-    1. make request to https://selenoid.autotests.cloud/status
-    2. get response
-    3. check total is 20
+    1. Make request to https://selenoid.autotests.cloud/status
+    2. Get response
+    3. Check total is 20
      */
 
    @Test
