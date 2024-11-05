@@ -1,8 +1,13 @@
+package tests;
+
+import models.LoginBodyModel;
+import models.LoginResponseModel;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.*;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginTests {
     /*
@@ -13,8 +18,11 @@ public class LoginTests {
          */
     @Test
     void successfulLoginTest(){
-        String authData = "{\"email\": \"eve.holt@reqres.in\", \"password\": \"cityslicka\"}";
-        given()
+        LoginBodyModel authData = new LoginBodyModel();
+        authData.setEmail("eve.holt@reqres.in");
+        authData.setPassword("cityslicka");
+
+        LoginResponseModel response = given()
                 .body(authData)
                 .contentType(JSON)
                 .log().uri()
@@ -26,7 +34,9 @@ public class LoginTests {
                 .log().status()
                 .log().body()
                 .statusCode(200)
-                .body("token", is("QpwL5tke4Pnpja7X4"));
+                .extract().as(LoginResponseModel.class);
+
+        assertEquals("QpwL5tke4Pnpja7X4", response.getToken());
     }
 
     @Test
@@ -41,7 +51,10 @@ public class LoginTests {
     }
     @Test
     void unsuccessfulLogin400Test(){
-        String authData = "{\"email\": \"eve.holt@reqres.in\", \"password\": \"cityslicka\"}";
+        LoginBodyModel authData = new LoginBodyModel();
+        authData.setEmail("eve.holt@reqres.in");
+        authData.setPassword("cityslicka");
+
         given()
                 .body(authData)
                 .log().uri()
@@ -58,8 +71,9 @@ public class LoginTests {
 
     @Test
     void userNotFound400Test(){
-        String authData = "{\"email\": \"ev7e.holt@reqres.in\", \"password\": \"cityslicka1\"}";
-        given()
+        LoginBodyModel authData = new LoginBodyModel();
+        authData.setEmail("evwewee.holt@reqres.in");
+        authData.setPassword("cityslicka");        given()
                 .body(authData)
                 .log().uri()
                 .contentType(JSON)
@@ -75,7 +89,8 @@ public class LoginTests {
 
     @Test
     void missingPassword400Test(){
-        String authData = "{\"email\": \"ev7e.holt@reqres.in\"}";
+        LoginBodyModel authData = new LoginBodyModel();
+        authData.setEmail("eve.holt@reqres.in");
         given()
                 .body(authData)
                 .log().uri()
@@ -92,7 +107,8 @@ public class LoginTests {
 
     @Test
     void missingLogin400Test1(){
-        String authData = "{\"password\": \"cityslicka1\"}";
+        LoginBodyModel authData = new LoginBodyModel();
+        authData.setPassword("cityslicka");
         given()
                 .body(authData)
                 .log().uri()
