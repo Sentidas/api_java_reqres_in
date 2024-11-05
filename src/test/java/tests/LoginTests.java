@@ -1,7 +1,8 @@
 package tests;
 
-import models.LoginBodyModel;
-import models.LoginResponseModel;
+import models.lombok.LoginBodyLombokModel;
+import models.pojo.LoginBodyModel;
+import models.pojo.LoginResponseModel;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.*;
@@ -17,8 +18,29 @@ public class LoginTests {
         3. Check "token" is and status code 200
          */
     @Test
-    void successfulLoginTest(){
+    void successfulLoginPojoTest(){
         LoginBodyModel authData = new LoginBodyModel();
+        authData.setEmail("eve.holt@reqres.in");
+        authData.setPassword("cityslicka");
+
+        LoginResponseModel response = given()
+                .body(authData)
+                .contentType(JSON)
+                .log().uri()
+
+                .when()
+                .post("https://reqres.in/api/login")
+
+                .then()
+                .log().status()
+                .log().body()
+                .statusCode(200)
+                .extract().as(LoginResponseModel.class);
+
+        assertEquals("QpwL5tke4Pnpja7X4", response.getToken());
+    } @Test
+    void successfulLoginLombokTest(){
+        LoginBodyLombokModel authData = new LoginBodyLombokModel();
         authData.setEmail("eve.holt@reqres.in");
         authData.setPassword("cityslicka");
 
