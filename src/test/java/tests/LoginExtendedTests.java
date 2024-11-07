@@ -16,7 +16,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static specs.LoginSpec.*;
+import static specs.Spec.*;
 
 public class LoginExtendedTests {
     @BeforeAll
@@ -183,14 +183,14 @@ public class LoginExtendedTests {
         authData.setPassword("cityslicka");
 
         LoginResponseLombokModel response = step("Make request", () ->
-                given(loginRequestSpec)
+                given(requestSpec)
                         .body(authData)
 
                         .when()
                         .post()
 
                         .then()
-                        .spec(loginResponseSpec)
+                        .spec(responseSpec)
                         .extract().as(LoginResponseLombokModel.class));
 
         step("Check response", () ->
@@ -203,7 +203,7 @@ public class LoginExtendedTests {
         authData.setEmail("eve.holt@reqres.in");
 
         MissingPasswordModel response = step("Make request", () ->
-                given(loginRequestSpec)
+                given(requestSpec)
                         .body(authData)
 
                         .when()

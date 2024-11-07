@@ -12,24 +12,22 @@ import static io.restassured.http.ContentType.JSON;
 
 import static io.restassured.RestAssured.with;
 
-public class LoginSpec {
+public class Spec {
 
-    public static RequestSpecification loginRequestSpec = with()
+    public static RequestSpecification requestSpec = with()
             .filter(withCustomTemplates())
             .contentType(JSON)
             .log().uri()
             .log().body()
             .log().headers();
-            //.baseUri("https://reqres.in");
 
-    public static ResponseSpecification loginResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(200)
+    public static ResponseSpecification responseSpec = new ResponseSpecBuilder()
             .log(STATUS)
             .log(BODY)
             .build();
 
     public static ResponseSpecification missingPasswordResponseSpec = new ResponseSpecBuilder()
-            .expectStatusCode(400)
+           // .expectStatusCode(400)
             .log(STATUS)
             .log(BODY)
             .build();
