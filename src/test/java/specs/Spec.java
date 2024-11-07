@@ -27,7 +27,6 @@ public class Spec {
             .build();
 
     public static ResponseSpecification missingPasswordResponseSpec = new ResponseSpecBuilder()
-           // .expectStatusCode(400)
             .log(STATUS)
             .log(BODY)
             .build();
